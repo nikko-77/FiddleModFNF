@@ -3,6 +3,7 @@ package;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.math.FlxMath;
+import flixel.FlxG.FlxG;
 import flixel.util.FlxColor;
 #if polymod
 import polymod.format.ParseRules.TargetSignatureElement;
@@ -25,14 +26,26 @@ class Note extends FlxSprite
 	public var isSustainNote:Bool = false;
 
 	public var noteScore:Float = 1;
+	
+	// 
+	private static var possibleAcosTargets:Array<Float> = [
+		Math.acos(0.75), -Math.acos(0.75), // right
+		Math.acos(0.25), -Math.acos(0.25), // up
+		Math.acos(-0.25), -Math.acos(-0.25), // down
+		Math.acos(-0.75), -Math.acos(-0.75), // left
+	];
+	public var cosWaveFrequency:Float = 0; // 2*Pi = 1 whole cycle in 1 second
+	public var targetAcosIndex:Int = 0;
+	public var targetAcos:Float = 0;
 
 	public static var swagWidth:Float = 160 * 0.7;
+	public static var swagFullWidth:Float = swagWidth/2*8;
 	public static var PURP_NOTE:Int = 0;
 	public static var GREEN_NOTE:Int = 2;
 	public static var BLUE_NOTE:Int = 1;
 	public static var RED_NOTE:Int = 3;
 
-	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false)
+	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false, ?cosWaveFrequency:Float = 0, ?dir:Int = 0 )
 	{
 		super();
 
@@ -41,6 +54,8 @@ class Note extends FlxSprite
 
 		this.prevNote = prevNote;
 		isSustainNote = sustainNote;
+		
+		this.cosWaveFrequency = cosWaveFrequency;
 
 		x += 50;
 		// MAKE SURE ITS DEFINITELY OFF SCREEN?
@@ -102,19 +117,30 @@ class Note extends FlxSprite
 				antialiasing = true;
 		}
 
+		x = getMidpointX() + calculateCosPosition(0)/2*Note.swagFullWidth;
+		if (!isSustainNote) {
+			//targetAcos = possibleAcosTargets[ (3-noteData)*2+dir ];
+			targetAcos = possibleAcosTargets[ (3-noteData)*2+Math.floor(Math.random()*2) ];
+			this.cosWaveFrequency = 1;
+		} else {
+			targetAcos = prevNote.targetAcos;
+			this.cosWaveFrequency = prevNote.cosWaveFrequency;
+		}
+		//x += calculateCosPosition(-1500)/2*swagWidth/2*9;
+
 		switch (noteData)
 		{
 			case 0:
-				x += swagWidth * 0;
+				//x += swagWidth * 0;
 				animation.play('purpleScroll');
 			case 1:
-				x += swagWidth * 1;
+				//x += swagWidth * 1;
 				animation.play('blueScroll');
 			case 2:
-				x += swagWidth * 2;
+				//x += swagWidth * 2;
 				animation.play('greenScroll');
 			case 3:
-				x += swagWidth * 3;
+				//x += swagWidth * 3;
 				animation.play('redScroll');
 		}
 
@@ -196,5 +222,26 @@ class Note extends FlxSprite
 			if (alpha > 0.3)
 				alpha = 0.3;
 		}
+	}
+
+	public function getMidpointX() {
+		var mid:Float = 50;
+		// Senpai stage is a bit messed up
+		if (PlayState.curStage.startsWith('school'))
+			mid += 30;
+		if (isSustainNote)
+			mid += 37;
+		if ( mustPress )
+			mid+=FlxG.width/2;
+		mid += swagWidth/2*3;
+		return mid;
+	}
+	
+	public function getRemainingTime() : Float {
+		return (Conductor.songPosition - strumTime);
+	}
+	
+	public function calculateCosPosition(remainingTime:Float) : Float {
+		return Math.cos( (remainingTime/1000)*cosWaveFrequency*Math.PI - targetAcos );
 	}
 }

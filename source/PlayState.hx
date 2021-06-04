@@ -1083,8 +1083,15 @@ class PlayState extends MusicBeatState
 					oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
 				else
 					oldNote = null;
+				
+				var cosWaveFrequency:Float = 0;
+				var dir:Int = 0;
+				if ( songNotes.length > 3 ) {
+					cosWaveFrequency = songNotes[3];
+					dir = Std.int(songNotes[4]);
+				}
 
-				var swagNote:Note = new Note(daStrumTime, daNoteData, oldNote);
+				var swagNote:Note = new Note(daStrumTime, daNoteData, oldNote, false,cosWaveFrequency,dir);
 				swagNote.sustainLength = songNotes[2];
 				swagNote.scrollFactor.set(0, 0);
 
@@ -1621,6 +1628,8 @@ class PlayState extends MusicBeatState
 					daNote.visible = true;
 					daNote.active = true;
 				}
+
+				daNote.x = daNote.getMidpointX() + daNote.calculateCosPosition(daNote.getRemainingTime())/2*Note.swagFullWidth;
 
 				daNote.y = (strumLine.y - (Conductor.songPosition - daNote.strumTime) * (0.45 * FlxMath.roundDecimal(SONG.speed, 2)));
 
