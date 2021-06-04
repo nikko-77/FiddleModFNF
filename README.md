@@ -25,8 +25,9 @@ Since all the notes are hardcode-randomized that thing is... there. If the rando
 
 # Issues
 * ~~Senpai is dead I mean bugged~~ *\[Fixed. Kinda.\]*.
-* No distributable **yet**, you will have to compile the whole thing by your own means.
-  * ninjamuffin99's Funkin' repo explains how to do this in detail: <https://github.com/ninjamuffin99/Funkin#build-instructions>.
+* ~~No distributable **yet**, you will have to compile the whole thing by your own means.~~
+  * ~~ninjamuffin99's Funkin' repo explains how to do this in detail: <https://github.com/ninjamuffin99/Funkin#build-instructions>.~~
+* Distributable available! Go to the [Releases](https://github.com/nikko-77/WigglyModFNF/releases) tab to download it!
 * This is my **first ever** mod (in fact my first ever interaction with mods), sorry if something is off or missing idk how anything works pls don't kill me ;-;.
 * I'm no good with git sorry if I mess up somewhere ;-;
 * *I'm dang sorry ;-;*
