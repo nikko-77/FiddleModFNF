@@ -24,7 +24,7 @@ Since all the notes are hardcode-randomized that thing is... there. If the rando
   * Removed a thing that crashed FreePlay idk why.
 
 # Issues
-* Senpai is ~~dead~~ I mean bugged
+* ~~Senpai is dead I mean bugged~~ *\[Fixed. Kinda.\]*.
 * No distributable **yet**, you will have to compile the whole thing by your own means.
   * ninjamuffin99's Funkin' repo explains how to do this in detail: <https://github.com/ninjamuffin99/Funkin#build-instructions>.
 * This is my **first ever** mod (in fact my first ever interaction with mods), sorry if something is off or missing idk how anything works pls don't kill me ;-;.

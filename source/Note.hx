@@ -226,11 +226,11 @@ class Note extends FlxSprite
 
 	public function getMidpointX() {
 		var mid:Float = 50;
-		// Senpai stage is a bit messed up
-		if (PlayState.curStage.startsWith('school'))
-			mid += 30;
-		if (isSustainNote)
+		if (isSustainNote) {
 			mid += 37;
+			if (PlayState.curStage.startsWith('school'))
+				mid -= 7;
+		}
 		if ( mustPress )
 			mid+=FlxG.width/2;
 		mid += swagWidth/2*3;
